@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ThriftApp</string>
+    <string name="baseURL">http://10.0.2.0/</string>
+    <string name="create_account"><u>Create Account</u></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="user_name">User Name</string>
+    <string name="user_email">User Email</string>
+    <string name="user_password">User Password</string>
+    <string name="user_password_check">User Password Check</string>
+    <string name="save">Save</string>
+    <string name="new_registration">New Registration</string>
+    <string name="valid">Valid</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="register">Register</string>
+</resources>

@@ -76,6 +76,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         if (callType == 1) {
 
                             ProductsInformation productsInformation = new ProductsInformation(
+                                    resultIntent.getStringExtra("productNumber"),
                                     resultIntent.getStringExtra("productName"),
                                     resultIntent.getStringExtra("productDesc"),
                                     resultIntent.getStringExtra("productOwner"),
@@ -97,8 +98,26 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onItemClick(View v, int position) {
 
+                /*
+                TODO : 2 cases -> user is the owner of product or not.
+                 */
                 // Item Click Event
-                Toast.makeText(UserMainActivity.this, list.get(position).getProductName(), Toast.LENGTH_LONG).show();
+                Log.i(TAG, "Item Clicked");
+                if (userName.equals(list.get(position).getProductOwner())) {
+
+                    Log.i(TAG, list.get(position).getProductNumber() + " " + list.get(position).getProductName() + " " + list.get(position).getProductDesc() + " " + list.get(position).getProductPrice());
+                    UpdateDeleteProductDialog mDialog = new UpdateDeleteProductDialog(
+                            UserMainActivity.this,
+                            list.get(position).getProductNumber(),
+                            list.get(position).getProductName(),
+                            list.get(position).getProductDesc(),
+                            list.get(position).getProductPrice(),
+                            adapter,
+                            position,
+                            list
+                    );
+                    mDialog.CallDialog();
+                }
             }
         });
     }
@@ -121,12 +140,13 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                     boolean success = item.getBoolean("success");
                     if (success) {
 
+                        String productNumber = item.getString("ProductNumber");
                         String productName = item.getString("ProductName");
                         String productDesc = item.getString("ProductDesc");
                         String productOwner = item.getString("ProductOwner");
                         String productPrice = String.valueOf(item.getDouble("ProductPrice"));
 
-                        ProductsInformation productsInformation = new ProductsInformation(productName, productDesc, productOwner, productPrice);
+                        ProductsInformation productsInformation = new ProductsInformation(productNumber, productName, productDesc, productOwner, productPrice);
                         list.add(productsInformation);
                     }
 

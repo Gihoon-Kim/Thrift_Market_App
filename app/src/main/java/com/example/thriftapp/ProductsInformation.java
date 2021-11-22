@@ -2,17 +2,27 @@ package com.example.thriftapp;
 
 public class ProductsInformation {
 
+    private String productNumber;
     private String productName;
     private String productDesc;
     private String productOwner;
     private String productPrice;
 
-    public ProductsInformation(String productName, String productDesc, String  productOwner, String productPrice) {
+    public ProductsInformation(String productNumber, String productName, String productDesc, String  productOwner, String productPrice) {
 
+        this.productNumber = productNumber;
         this.productName = productName;
         this.productDesc = productDesc;
         this.productOwner = productOwner;
         this.productPrice = productPrice;
+    }
+
+    public String getProductNumber() {
+        return productNumber;
+    }
+
+    public void setProductNumber(String productNumber) {
+        this.productNumber = productNumber;
     }
 
     public String getProductName() {

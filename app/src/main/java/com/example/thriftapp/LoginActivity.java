@@ -1,5 +1,6 @@
 package com.example.thriftapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,10 +33,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etEmail)
     EditText etEmail;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etPassword)
     EditText etPassword;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.tvErrorMsg)
     TextView tvErrorMsg;
 
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Registration Function -- Open Registration Activity.
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.tvCreateAccount)
     public void IntentToRegisterActivity() {
 
@@ -56,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Login
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.btnLogin)
     public void OnLogin() {
 
@@ -64,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (mLogin_userID.equals("") || mLogin_userPwd.equals("")) {
 
-            tvErrorMsg.setText("Login Fail. Check your ID and Password");
+            tvErrorMsg.setText(R.string.login_fail);
             etEmail.setText("");
             etPassword.setText("");
             return;
@@ -91,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
 
-                    tvErrorMsg.setText("Login Fail. Check your ID and Password");
+                    tvErrorMsg.setText(R.string.login_fail);
                     etEmail.setText(null);
                     etPassword.setText(null);
                 }

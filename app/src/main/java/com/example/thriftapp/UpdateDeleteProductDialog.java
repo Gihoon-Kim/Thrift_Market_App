@@ -30,9 +30,9 @@ public class UpdateDeleteProductDialog {
 
     private Context context;
     private String productNumber;
-    private String productName;
-    private String productDesc;
-    private String productPrice;
+    private final String productName;
+    private final String productDesc;
+    private final String productPrice;
     private Dialog dialog;
     private ProductAdapter adapter;
     private int position;
@@ -156,12 +156,9 @@ public class UpdateDeleteProductDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         dialog = builder
                 .setMessage("Do you really want to Delete the product?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton("Yes", (dialog, which) -> {
 
-                        // TODO DELETE AT DATABASE
-                    }
+                    // TODO DELETE AT DATABASE
                 })
                 .setNegativeButton("No", null)
                 .create();

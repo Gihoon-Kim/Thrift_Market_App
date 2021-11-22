@@ -1,5 +1,6 @@
 package com.example.thriftapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,17 +79,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvProductOwner = itemView.findViewById(R.id.tvProductOwner);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            itemView.setOnClickListener(v -> {
 
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
+                int pos = getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
 
-                        if (mListener != null) {
+                    if (mListener != null) {
 
-                            mListener.onItemClick(v, pos);
-                        }
+                        mListener.onItemClick(v, pos);
                     }
                 }
             });
@@ -115,6 +113,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     // Show data on Item view that is matched position
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 

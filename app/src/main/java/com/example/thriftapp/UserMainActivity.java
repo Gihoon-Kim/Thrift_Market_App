@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -43,6 +41,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rvItemList)
     RecyclerView rvItemList;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etSearch)
     EditText etSearch;
 
@@ -94,30 +93,27 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         /*
         Create custom listener object and send
          */
-        adapter.SetOnItemClickListener(new ProductAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
+        adapter.SetOnItemClickListener((v, position) -> {
 
-                /*
-                TODO : 2 cases -> user is the owner of product or not.
-                 */
-                // Item Click Event
-                Log.i(TAG, "Item Clicked");
-                if (userName.equals(list.get(position).getProductOwner())) {
+            /*
+            TODO : 2 cases -> user is the owner of product or not.
+             */
+            // Item Click Event
+            Log.i(TAG, "Item Clicked");
+            if (userName.equals(list.get(position).getProductOwner())) {
 
-                    Log.i(TAG, list.get(position).getProductNumber() + " " + list.get(position).getProductName() + " " + list.get(position).getProductDesc() + " " + list.get(position).getProductPrice());
-                    UpdateDeleteProductDialog mDialog = new UpdateDeleteProductDialog(
-                            UserMainActivity.this,
-                            list.get(position).getProductNumber(),
-                            list.get(position).getProductName(),
-                            list.get(position).getProductDesc(),
-                            list.get(position).getProductPrice(),
-                            adapter,
-                            position,
-                            list
-                    );
-                    mDialog.CallDialog();
-                }
+                Log.i(TAG, list.get(position).getProductNumber() + " " + list.get(position).getProductName() + " " + list.get(position).getProductDesc() + " " + list.get(position).getProductPrice());
+                UpdateDeleteProductDialog mDialog = new UpdateDeleteProductDialog(
+                        UserMainActivity.this,
+                        list.get(position).getProductNumber(),
+                        list.get(position).getProductName(),
+                        list.get(position).getProductDesc(),
+                        list.get(position).getProductPrice(),
+                        adapter,
+                        position,
+                        list
+                );
+                mDialog.CallDialog();
             }
         });
     }
@@ -167,6 +163,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         rvItemList.setAdapter(adapter);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.btnAddNew)
     public void OnAddNewBtn() {
 

@@ -1,8 +1,8 @@
 package com.example.thriftapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,10 +26,13 @@ public class AddNewProduct extends AppCompatActivity {
 
     private static final String TAG = "AddNewProduct";
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etProductName)
     EditText etProductName;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etProductDesc)
     EditText etProductDesc;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etProductPrice)
     EditText etProductPrice;
 
@@ -48,6 +51,7 @@ public class AddNewProduct extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.btnSave)
     public void OnSaveProduct() {
 

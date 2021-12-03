@@ -153,7 +153,7 @@ public class UpdateDeleteProductDialog {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         AlertDialog tempDialog = builder
                 .setMessage("Do you really want to Delete the product?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setPositiveButton("Yes", (dialog1, which) ->  {
 
                     Response.Listener<String> responseListener = response -> {
 
@@ -170,6 +170,8 @@ public class UpdateDeleteProductDialog {
                                 Toast.makeText(context, "Item Deleted successfully", Toast.LENGTH_SHORT).show();
                                 list.remove(list.get(position));
                                 adapter.notifyDataSetChanged();
+
+                                dialog.dismiss();
                             } else {
 
                                 Toast.makeText(context, "Deleting failed", Toast.LENGTH_SHORT).show();
@@ -186,8 +188,6 @@ public class UpdateDeleteProductDialog {
                     );
                     RequestQueue queue = Volley.newRequestQueue(context);
                     queue.add(deleteProductRequest);
-
-                    dialog.dismiss();
                 })
                 .setNegativeButton("No", null)
                 .create();

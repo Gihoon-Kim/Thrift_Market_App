@@ -29,9 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/*
-TODO : Recycler View should be on Fragment to search / classify categorically
- */
 public class UserMainActivity extends AppCompatActivity implements TextWatcher {
 
     private final static String TAG = "UserMainActivity";
@@ -114,6 +111,16 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         list
                 );
                 mDialog.CallDialog();
+            } else {
+
+                ConnectDialog connectDialog = new ConnectDialog(
+                        UserMainActivity.this,
+                        list.get(position).getProductNumber(),
+                        list.get(position).getProductName(),
+                        list.get(position).getProductDesc(),
+                        list.get(position).getProductPrice()
+                );
+                connectDialog.CallDialog();
             }
         });
     }

@@ -112,7 +112,6 @@ public class UpdateDeleteProductDialog {
 
                         if (success) {
 
-                            // TODO : if update data is success
                             Log.i(TAG, response);
                         } else {
 
@@ -150,18 +149,48 @@ public class UpdateDeleteProductDialog {
     };
 
     private final View.OnClickListener deleteListener = v -> {
-        /*
-        TODO : Delete the item by database
-         */
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        dialog = builder
+        AlertDialog tempDialog = builder
                 .setMessage("Do you really want to Delete the product?")
                 .setPositiveButton("Yes", (dialog, which) -> {
 
-                    // TODO DELETE AT DATABASE
+                    Response.Listener<String> responseListener = response -> {
+
+                        try {
+
+                            Log.i(TAG, "Delete processing");
+                            Log.i(TAG, response);
+                            JSONObject jsonObject = new JSONObject(response);
+                            boolean success = jsonObject.getBoolean("success");
+
+                            if (success) {
+
+                                Log.i(TAG, "Delete Success");
+                                Toast.makeText(context, "Item Deleted successfully", Toast.LENGTH_SHORT).show();
+                                list.remove(list.get(position));
+                                adapter.notifyDataSetChanged();
+                            } else {
+
+                                Toast.makeText(context, "Deleting failed", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                        }
+                    };
+
+                    DeleteProductRequest deleteProductRequest = new DeleteProductRequest(
+                            productNumber,
+                            responseListener
+                    );
+                    RequestQueue queue = Volley.newRequestQueue(context);
+                    queue.add(deleteProductRequest);
+
+                    dialog.dismiss();
                 })
                 .setNegativeButton("No", null)
                 .create();
-        dialog.show();
+        tempDialog.show();
     };
 }

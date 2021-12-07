@@ -67,6 +67,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                     if (result.getResultCode() == RESULT_OK) {
 
                         Intent resultIntent = result.getData();
+                        assert resultIntent != null;
                         int callType = resultIntent.getIntExtra("callType", 0);
 
                         if (callType == 1) {
@@ -76,7 +77,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                     resultIntent.getStringExtra("productName"),
                                     resultIntent.getStringExtra("productDesc"),
                                     resultIntent.getStringExtra("productOwner"),
-                                    resultIntent.getStringExtra("productPrice")
+                                    resultIntent.getStringExtra("productPrice"),
+                                    resultIntent.getStringExtra("tradeLocation")
                             );
                             list.add(productsInformation);
                             adapter.notifyDataSetChanged();
@@ -92,9 +94,6 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
          */
         adapter.SetOnItemClickListener((v, position) -> {
 
-            /*
-            TODO : 2 cases -> user is the owner of product or not.
-             */
             // Item Click Event
             Log.i(TAG, "Item Clicked");
             if (userName.equals(list.get(position).getProductOwner())) {
@@ -113,7 +112,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                 mDialog.CallDialog();
             } else {
 
-                ConnectDialog connectDialog = new ConnectDialog(
+                ContactDialog connectDialog = new ContactDialog(
                         UserMainActivity.this,
                         list.get(position).getProductNumber(),
                         list.get(position).getProductName(),
@@ -148,8 +147,9 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         String productDesc = item.getString("ProductDesc");
                         String productOwner = item.getString("ProductOwner");
                         String productPrice = String.valueOf(item.getDouble("ProductPrice"));
+                        String tradeLocation = item.getString("TradeLocation");
 
-                        ProductsInformation productsInformation = new ProductsInformation(productNumber, productName, productDesc, productOwner, productPrice);
+                        ProductsInformation productsInformation = new ProductsInformation(productNumber, productName, productDesc, productOwner, productPrice, tradeLocation);
                         list.add(productsInformation);
                     }
 

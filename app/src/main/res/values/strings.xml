@@ -15,4 +15,6 @@
     <string name="phone_number">Phone Number</string>
     <string name="register">Register</string>
     <string name="login_fail">Login Fail. Check your ID and Password</string>
+    <string name="call">Call</string>
+    <string name="message">Message</string>
 </resources>

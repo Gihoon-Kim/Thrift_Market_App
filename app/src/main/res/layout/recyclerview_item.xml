@@ -40,6 +40,12 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvTradeLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -70,6 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView tvProductDesc;
         TextView tvProductOwner;
         TextView tvProductPrice;
+        TextView tvTradeLocation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +79,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvProductDesc = itemView.findViewById(R.id.tvProductDesc);
             tvProductOwner = itemView.findViewById(R.id.tvProductOwner);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            tvTradeLocation = itemView.findViewById(R.id.tvTradeLocation);
 
             itemView.setOnClickListener(v -> {
 
@@ -121,10 +123,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String productDesc = filteredList.get(position).getProductDesc();
         String productOwner = filteredList.get(position).getProductOwner();
         String productPrice = filteredList.get(position).getProductPrice();
+        String tradeLocation = filteredList.get(position).getTradeLocation();
         holder.tvProductName.setText("product Name : " + productName);
         holder.tvProductDesc.setText("product Description : " + productDesc);
         holder.tvProductOwner.setText("product Owner : " + productOwner);
         holder.tvProductPrice.setText("product Price : " + productPrice);
+        holder.tvTradeLocation.setText("Trade Location : " + tradeLocation);
     }
 
     @Override

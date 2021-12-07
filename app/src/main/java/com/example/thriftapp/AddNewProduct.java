@@ -35,6 +35,9 @@ public class AddNewProduct extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etProductPrice)
     EditText etProductPrice;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.etLocation)
+    EditText etTradeLocation;
 
     private int ownerNumber;
     private String ownerName;
@@ -58,6 +61,7 @@ public class AddNewProduct extends AppCompatActivity {
         String productName = etProductName.getText().toString().trim();
         String productDesc = etProductDesc.getText().toString().trim();
         float productPrice;
+        String tradeLocation = etTradeLocation.getText().toString().trim();
         if (etProductPrice.getText().toString().trim().equals("")) {
 
             productPrice = 0;
@@ -96,6 +100,7 @@ public class AddNewProduct extends AppCompatActivity {
                     intent.putExtra("productDesc", productDesc);
                     intent.putExtra("productPrice", String.valueOf(productPrice));
                     intent.putExtra("productOwner", ownerName);
+                    intent.putExtra("location", tradeLocation);
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {
@@ -114,6 +119,7 @@ public class AddNewProduct extends AppCompatActivity {
                 productDesc,
                 productPrice,
                 ownerNumber,
+                tradeLocation,
                 responseListener
         );
         RequestQueue queue = Volley.newRequestQueue(this);

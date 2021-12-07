@@ -7,14 +7,24 @@ public class ProductsInformation {
     private String productDesc;
     private String productOwner;
     private String productPrice;
+    private String tradeLocation;
 
-    public ProductsInformation(String productNumber, String productName, String productDesc, String  productOwner, String productPrice) {
+    public String getTradeLocation() {
+        return tradeLocation;
+    }
+
+    public void setTradeLocation(String tradeLocation) {
+        this.tradeLocation = tradeLocation;
+    }
+
+    public ProductsInformation(String productNumber, String productName, String productDesc, String  productOwner, String productPrice, String tradeLocation) {
 
         this.productNumber = productNumber;
         this.productName = productName;
         this.productDesc = productDesc;
         this.productOwner = productOwner;
         this.productPrice = productPrice;
+        this.tradeLocation = tradeLocation;
     }
 
     public String getProductNumber() {

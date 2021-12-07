@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ConnectDialog {
+public class ContactDialog {
 
     private final static String TAG = "ConnectDialog";
 
@@ -43,7 +43,7 @@ public class ConnectDialog {
     private String sellerTradeCount;
     private String sellerPhone;
 
-    public ConnectDialog(
+    public ContactDialog(
             Context context,
             String productNumber,
             String productName,
@@ -64,8 +64,8 @@ public class ConnectDialog {
 
         dialog.setContentView(R.layout.dialog_othersproduct);
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(params);
         dialog.show();
 
@@ -137,24 +137,17 @@ public class ConnectDialog {
 
         Button btnCall = contactDialog.findViewById(R.id.btnCall);
         Button btnMessage = contactDialog.findViewById(R.id.btnMessage);
-        Button btnEmail = contactDialog.findViewById(R.id.btnEmail);
 
-        btnCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnCall.setOnClickListener(v -> {
 
-                Log.i(TAG, "Seller Phone : " + sellerPhone);
-                context.startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + sellerPhone)));
-            }
+            Log.i(TAG, "Seller Phone : " + sellerPhone);
+            context.startActivity(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + sellerPhone)));
         });
 
-        btnMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnMessage.setOnClickListener(v -> {
 
-                Log.i(TAG, "Seller Phone : " + sellerPhone);
-                context.startActivity(new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+sellerPhone)));
-            }
+            Log.i(TAG, "Seller Phone : " + sellerPhone);
+            context.startActivity(new Intent(Intent.ACTION_SENDTO,Uri.parse("smsto:"+sellerPhone)));
         });
     }
 }

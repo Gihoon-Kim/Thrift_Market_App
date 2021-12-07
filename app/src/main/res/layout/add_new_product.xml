@@ -49,6 +49,15 @@
             android:background="@drawable/product_description_border"
             tools:ignore="NestedWeights" />
 
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:gravity="top"
+            android:hint="Where to meet" />
+
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"

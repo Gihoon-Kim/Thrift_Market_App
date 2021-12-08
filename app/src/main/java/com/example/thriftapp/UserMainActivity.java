@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,6 +34,8 @@ import butterknife.OnClick;
 public class UserMainActivity extends AppCompatActivity implements TextWatcher {
 
     private final static String TAG = "UserMainActivity";
+    private final static int GET_ALL_PRODUCTS = 1;
+    private final static int GET_MY_PRODUCTS = 2;
     private String userName;
     private int userNumber;
 
@@ -42,7 +46,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
     @BindView(R.id.etSearch)
     EditText etSearch;
 
-    ArrayList<ProductsInformation> list;
+    ArrayList<ProductsInformation> list = null;
     ProductAdapter adapter;
     
     private ActivityResultLauncher<Intent> resultLauncher;
@@ -86,12 +90,17 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                     }
                 }
         );
+        rvItemList.setLayoutManager(new LinearLayoutManager(this));
 
         CallRecyclerView();
 
         /*
         Create custom listener object and send
          */
+        MakeAdapterClickable();
+    }
+
+    private void MakeAdapterClickable() {
         adapter.SetOnItemClickListener((v, position) -> {
 
             // Item Click Event
@@ -129,46 +138,16 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
 
         list = new ArrayList<>();
 
-        Response.Listener<String> responseListener = response -> {
-
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray jsonArray = jsonObject.getJSONArray("Products");
-
-                Log.i(TAG, jsonArray.toString());
-                Log.i(TAG, String.valueOf(jsonArray.length()));
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject item = jsonArray.getJSONObject(i);
-                    boolean success = item.getBoolean("success");
-                    if (success) {
-
-                        String productNumber = item.getString("ProductNumber");
-                        String productName = item.getString("ProductName");
-                        String productDesc = item.getString("ProductDesc");
-                        String productOwner = item.getString("ProductOwner");
-                        String productPrice = String.valueOf(item.getDouble("ProductPrice"));
-                        String tradeLocation = item.getString("TradeLocation");
-
-                        ProductsInformation productsInformation = new ProductsInformation(productNumber, productName, productDesc, productOwner, productPrice, tradeLocation);
-                        list.add(productsInformation);
-                    }
-
-                }
-            } catch (JSONException e) {
-
-                e.printStackTrace();
-            }
-        };
-
-        GetProductRequest getProductRequest = new GetProductRequest(responseListener);
-        RequestQueue queue = Volley.newRequestQueue(UserMainActivity.this);
-        queue.add(getProductRequest);
-
-        rvItemList.setLayoutManager(new LinearLayoutManager(this));
+        // 1 for all
+        // 2 for mine
+        AddProductsIntoList(list, GET_ALL_PRODUCTS);
 
         adapter = new ProductAdapter(list);
         rvItemList.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+        MakeAdapterClickable();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -179,6 +158,97 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         intent.putExtra("userName", userName);
         intent.putExtra("userNumber", userNumber);
         resultLauncher.launch(intent);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @OnClick(R.id.btnViewMine)
+    public void OnViewMine() {
+
+        list = new ArrayList<>();
+
+        // 1 for all
+        // 2 for mine
+        AddProductsIntoList(list, GET_MY_PRODUCTS);
+
+        adapter = new ProductAdapter(list);
+        rvItemList.setAdapter(adapter);
+
+        adapter.notifyDataSetChanged();
+
+        MakeAdapterClickable();
+
+        Button btnViewMine = findViewById(R.id.btnViewMine);
+        Button btnViewAll = findViewById(R.id.btnViewAll);
+
+        btnViewMine.setVisibility(View.GONE);
+        btnViewAll.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @OnClick(R.id.btnViewAll)
+    public void OnViewAll() {
+
+        CallRecyclerView();
+        Button btnViewMine = findViewById(R.id.btnViewMine);
+        Button btnViewAll = findViewById(R.id.btnViewAll);
+
+        btnViewMine.setVisibility(View.VISIBLE);
+        btnViewAll.setVisibility(View.GONE);
+    }
+
+    private void AddProductsIntoList(ArrayList<ProductsInformation> list, int id) {
+
+        Response.Listener<String> responseListener = response -> {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject(response);
+                JSONArray jsonArray = jsonObject.getJSONArray("Products");
+
+                Log.i(TAG, jsonArray.toString());
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject item = jsonArray.getJSONObject(i);
+                    boolean success = item.getBoolean("success");
+
+                    if (success) {
+
+                        String productNumber = item.getString("ProductNumber");
+                        String productName = item.getString("ProductName");
+                        String productDesc = item.getString("ProductDesc");
+                        String productOwner = item.getString("ProductOwner");
+                        String productPrice = String.valueOf(item.getDouble("ProductPrice"));
+                        String tradeLocation = item.getString("TradeLocation");
+
+                        ProductsInformation productsInformation = new ProductsInformation(
+                                productNumber,
+                                productName,
+                                productDesc,
+                                productOwner,
+                                productPrice,
+                                tradeLocation
+                        );
+                        list.add(productsInformation);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        };
+
+        if (id == GET_ALL_PRODUCTS) {
+            GetProductRequest getProductRequest = new GetProductRequest(responseListener);
+            RequestQueue queue = Volley.newRequestQueue(UserMainActivity.this);
+            queue.add(getProductRequest);
+        }  else if (id == GET_MY_PRODUCTS) {
+
+            GetMyProductRequest getMyProductRequest = new GetMyProductRequest(userNumber, responseListener);
+            RequestQueue queue = Volley.newRequestQueue(UserMainActivity.this);
+            queue.add(getMyProductRequest);
+        }
     }
 
     @Override

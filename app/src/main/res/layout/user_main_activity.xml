@@ -38,8 +38,30 @@
 
         <Button
             android:id="@+id/btnAddNew"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Add New Product" />
+            android:text="Add New Product"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"/>
+
+        <Button
+            android:id="@+id/btnViewMine"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="View My List" />
+
+        <Button
+            android:id="@+id/btnViewAll"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="View All Products" />
     </LinearLayout>
 </LinearLayout>

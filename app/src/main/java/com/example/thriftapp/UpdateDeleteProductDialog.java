@@ -6,8 +6,10 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -17,7 +19,9 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UpdateDeleteProductDialog {
 
@@ -26,6 +30,7 @@ public class UpdateDeleteProductDialog {
     EditText etProductName;
     EditText etProductDesc;
     EditText etProductPrice;
+    Spinner spinnerStatus;
 
     private Context context;
     private String productNumber;
@@ -36,6 +41,7 @@ public class UpdateDeleteProductDialog {
     private ProductAdapter adapter;
     private int position;
     private ArrayList<ProductsInformation> list;
+    private String status;
 
     public UpdateDeleteProductDialog(
             Context context,
@@ -77,12 +83,22 @@ public class UpdateDeleteProductDialog {
         etProductPrice = dialog.findViewById(R.id.etProductPrice);
         final Button btnUpdate = dialog.findViewById(R.id.btnUpdate);
         final Button btnDelete = dialog.findViewById(R.id.btnDelete);
+        spinnerStatus = dialog.findViewById(R.id.spinnerStatus);
 
         etProductName.setText(productName);
         etProductDesc.setText(productDesc);
         etProductPrice.setText(productPrice);
         btnUpdate.setOnClickListener(updateListener);
         btnDelete.setOnClickListener(deleteListener);
+
+        String[] status = context.getResources().getStringArray(R.array.status);
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                context,
+                android.R.layout.simple_spinner_item,
+                status
+        );
+        spinnerStatus.setAdapter(spinnerAdapter);
     }
 
     private final View.OnClickListener updateListener = v -> {
@@ -90,6 +106,7 @@ public class UpdateDeleteProductDialog {
         String newName = etProductName.getText().toString();
         String newDesc = etProductDesc.getText().toString();
         float newPrice;
+        status = spinnerStatus.getSelectedItem().toString();
 
         try {
 
@@ -127,6 +144,7 @@ public class UpdateDeleteProductDialog {
                         newName,
                         newDesc,
                         newPrice,
+                        status,
                         responseListener
                 );
                 RequestQueue queue = Volley.newRequestQueue(context);
@@ -135,6 +153,7 @@ public class UpdateDeleteProductDialog {
                 list.get(position).setProductName(newName);
                 list.get(position).setProductDesc(newDesc);
                 list.get(position).setProductPrice(String.valueOf(newPrice));
+                list.get(position).setStatus(status);
             }
 
         } catch (NumberFormatException e) {

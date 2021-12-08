@@ -11,7 +11,7 @@ public class UpdateProductRequest extends StringRequest {
     private final static String URL = "http://10.0.2.2/TMA_UpdateProduct.php";
     private final Map<String, String> map;
 
-    public UpdateProductRequest(String productNumber, String productName, String productDesc, float productPrice, Response.Listener<String> listener) {
+    public UpdateProductRequest(String productNumber, String productName, String productDesc, float productPrice, String status, Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null);
 
         map = new HashMap<>();
@@ -19,6 +19,7 @@ public class UpdateProductRequest extends StringRequest {
         map.put("productName", productName);
         map.put("productDesc", productDesc);
         map.put("productPrice", String.valueOf(productPrice));
+        map.put("status", status);
     }
 
     @Override

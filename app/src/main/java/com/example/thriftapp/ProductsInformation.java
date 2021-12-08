@@ -8,6 +8,15 @@ public class ProductsInformation {
     private String productOwner;
     private String productPrice;
     private String tradeLocation;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getTradeLocation() {
         return tradeLocation;

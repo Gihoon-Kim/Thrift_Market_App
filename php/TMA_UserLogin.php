@@ -5,7 +5,11 @@
     $UserEmail = $_POST["userEmail"];
     $UserPassword = $_POST["userPassword"];
 
-    $statement = mysqli_prepare($con, "SELECT UserNumber, UserEmail, UserPassword, UserName, UserPhoneNumber FROM user WHERE UserEmail = ? AND UserPassword = ?");
+    $statement = mysqli_prepare($con, 
+    "SELECT UserNumber, UserEmail, UserPassword, UserName, UserPhoneNumber
+        FROM user 
+        WHERE UserEmail = ? AND UserPassword = ?"
+        );
     mysqli_stmt_bind_param($statement, "ss", $UserEmail, $UserPassword);
     mysqli_stmt_execute($statement);
 

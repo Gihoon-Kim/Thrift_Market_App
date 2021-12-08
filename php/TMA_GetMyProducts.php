@@ -1,17 +1,20 @@
 <?php
     $con = mysqli_connect('localhost', 'root', '', 'tma_user');
 
-    $statement = mysqli_prepare($con, 
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, tradeLocation
-	        FROM product p
+    $ProductOwner = $_POST["productOwner"];
+
+    $statement = mysqli_prepare($con,
+        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing
+            FROM product p
             JOIN user u
-	        ON p.ProductOwner = u.UserNumber
-            WHERE Processing = \"Waiting\";"
+            ON p.ProductOwner = u.UserNumber
+            WHERE ProductOwner = ?;"
             );
+    mysqli_stmt_bind_param($statement, "i", $ProductOwner);
     mysqli_stmt_execute($statement);
 
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation);
+    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation, $Processing);
 
     $response = array();
 

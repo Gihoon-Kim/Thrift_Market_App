@@ -5,9 +5,10 @@
     $ProductDesc = $_POST["productDesc"];
     $productPrice = $_POST["productPrice"];
     $productOwner = $_POST["productOwner"];
+    $Location = $_POST["location"];
 
-    $statement = mysqli_prepare($con, "INSERT INTO product (ProductName, ProductDesc, ProductPrice, ProductOwner) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "ssdi", $ProductName, $ProductDesc, $productPrice, $productOwner);
+    $statement = mysqli_prepare($con, "INSERT INTO product (ProductName, ProductDesc, ProductPrice, ProductOwner, tradeLocation) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($statement, "ssdis", $ProductName, $ProductDesc, $productPrice, $productOwner, $Location);
     mysqli_stmt_execute($statement);
 
     $response = array();

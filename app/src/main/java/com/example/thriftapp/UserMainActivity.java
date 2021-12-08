@@ -117,7 +117,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         list.get(position).getProductNumber(),
                         list.get(position).getProductName(),
                         list.get(position).getProductDesc(),
-                        list.get(position).getProductPrice()
+                        list.get(position).getProductPrice(),
+                        list.get(position).getTradeLocation()
                 );
                 connectDialog.CallDialog();
             }

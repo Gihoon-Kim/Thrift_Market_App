@@ -29,12 +29,14 @@ public class ContactDialog {
     TextView tvProductName;
     TextView tvProductDesc;
     TextView tvProductPrice;
+    TextView tvTradeLocation;
 
     private final Context context;
     private final String productNumber;
     private final String productName;
     private final String productDesc;
     private final String productPrice;
+    private final String tradeLocation;
     private Dialog dialog;
     private Dialog contactDialog;
 
@@ -48,7 +50,8 @@ public class ContactDialog {
             String productNumber,
             String productName,
             String productDesc,
-            String productPrice
+            String productPrice,
+            String tradeLocation
     ) {
 
         this.context = context;
@@ -56,6 +59,7 @@ public class ContactDialog {
         this.productName = productName;
         this.productDesc = productDesc;
         this.productPrice = productPrice;
+        this.tradeLocation = tradeLocation;
     }
 
     public void CallDialog() {
@@ -77,12 +81,15 @@ public class ContactDialog {
         tvProductName = dialog.findViewById(R.id.tvProductName);
         tvProductDesc = dialog.findViewById(R.id.tvProductDesc);
         tvProductPrice = dialog.findViewById(R.id.tvProductPrice);
+        tvTradeLocation = dialog.findViewById(R.id.tvTradeLocation);
+
         Button btnContact = dialog.findViewById(R.id.btnContact);
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
 
         tvProductName.setText(productName);
         tvProductDesc.setText(productDesc);
         tvProductPrice.setText(productPrice);
+        tvTradeLocation.setText(tradeLocation);
 
         // Get Seller's information
         Response.Listener<String> responseListener = response -> {

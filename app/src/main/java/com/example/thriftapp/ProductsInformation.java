@@ -9,6 +9,15 @@ public class ProductsInformation {
     private String productPrice;
     private String tradeLocation;
     private String status;
+    private String addedDate;
+
+    public String getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(String addedDate) {
+        this.addedDate = addedDate;
+    }
 
     public String getStatus() {
         return status;
@@ -26,7 +35,15 @@ public class ProductsInformation {
         this.tradeLocation = tradeLocation;
     }
 
-    public ProductsInformation(String productNumber, String productName, String productDesc, String  productOwner, String productPrice, String tradeLocation) {
+    public ProductsInformation(
+            String productNumber,
+            String productName,
+            String productDesc,
+            String  productOwner,
+            String productPrice,
+            String tradeLocation,
+            String addedDate
+    ) {
 
         this.productNumber = productNumber;
         this.productName = productName;
@@ -34,6 +51,7 @@ public class ProductsInformation {
         this.productOwner = productOwner;
         this.productPrice = productPrice;
         this.tradeLocation = tradeLocation;
+        this.addedDate = addedDate;
     }
 
     public String getProductNumber() {

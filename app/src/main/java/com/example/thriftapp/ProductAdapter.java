@@ -30,7 +30,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
 
-                Log.i("Adapter", "FilterResults");
                 if (charString.isEmpty()) {
 
                     filteredList = unFilteredList;
@@ -71,6 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView tvProductOwner;
         TextView tvProductPrice;
         TextView tvTradeLocation;
+        TextView tvAddedDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvProductOwner = itemView.findViewById(R.id.tvProductOwner);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             tvTradeLocation = itemView.findViewById(R.id.tvTradeLocation);
+            tvAddedDate = itemView.findViewById(R.id.tvAddedDate);
 
             itemView.setOnClickListener(v -> {
 
@@ -124,11 +125,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String productOwner = filteredList.get(position).getProductOwner();
         String productPrice = filteredList.get(position).getProductPrice();
         String tradeLocation = filteredList.get(position).getTradeLocation();
+        String addedDate = filteredList.get(position).getAddedDate();
+
         holder.tvProductName.setText("product Name : " + productName);
         holder.tvProductDesc.setText("product Description : " + productDesc);
         holder.tvProductOwner.setText("product Owner : " + productOwner);
         holder.tvProductPrice.setText("product Price : " + productPrice);
         holder.tvTradeLocation.setText("Trade Location : " + tradeLocation);
+        holder.tvAddedDate.setText("Registered Date : " + addedDate);
     }
 
     @Override

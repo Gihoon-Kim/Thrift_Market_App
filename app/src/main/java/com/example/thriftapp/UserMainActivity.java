@@ -82,7 +82,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                     resultIntent.getStringExtra("productDesc"),
                                     resultIntent.getStringExtra("productOwner"),
                                     resultIntent.getStringExtra("productPrice"),
-                                    resultIntent.getStringExtra("tradeLocation")
+                                    resultIntent.getStringExtra("tradeLocation"),
+                                    resultIntent.getStringExtra("addedDate")
                             );
                             list.add(productsInformation);
                             adapter.notifyDataSetChanged();
@@ -121,7 +122,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                 mDialog.CallDialog();
             } else {
 
-                ContactDialog connectDialog = new ContactDialog(
+                ContactDialog contactDialog = new ContactDialog(
                         UserMainActivity.this,
                         list.get(position).getProductNumber(),
                         list.get(position).getProductName(),
@@ -129,7 +130,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         list.get(position).getProductPrice(),
                         list.get(position).getTradeLocation()
                 );
-                connectDialog.CallDialog();
+                contactDialog.CallDialog();
             }
         });
     }
@@ -220,6 +221,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         String productOwner = item.getString("ProductOwner");
                         String productPrice = String.valueOf(item.getDouble("ProductPrice"));
                         String tradeLocation = item.getString("TradeLocation");
+                        String addedDate = item.getString("AddedDate");
 
                         ProductsInformation productsInformation = new ProductsInformation(
                                 productNumber,
@@ -227,7 +229,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                 productDesc,
                                 productOwner,
                                 productPrice,
-                                tradeLocation
+                                tradeLocation,
+                                addedDate
                         );
                         list.add(productsInformation);
                         adapter.notifyDataSetChanged();

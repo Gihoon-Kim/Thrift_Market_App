@@ -5,7 +5,8 @@
         "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, tradeLocation
 	        FROM product p
             JOIN user u
-	        ON p.ProductOwner = u.UserNumber;"
+	        ON p.ProductOwner = u.UserNumber
+            WHERE Processing = \"Waiting\";"
             );
     mysqli_stmt_execute($statement);
 

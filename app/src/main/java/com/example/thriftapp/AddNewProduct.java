@@ -18,6 +18,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -52,6 +56,7 @@ public class AddNewProduct extends AppCompatActivity {
         ownerName = intent.getStringExtra("userName");
 
         ButterKnife.bind(this);
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -62,6 +67,13 @@ public class AddNewProduct extends AppCompatActivity {
         String productDesc = etProductDesc.getText().toString().trim();
         float productPrice;
         String tradeLocation = etTradeLocation.getText().toString().trim();
+
+        // Current date
+        Date date = Calendar.getInstance().getTime();
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(date);
+
         if (etProductPrice.getText().toString().trim().equals("")) {
 
             productPrice = 0;
@@ -120,6 +132,7 @@ public class AddNewProduct extends AppCompatActivity {
                 productPrice,
                 ownerNumber,
                 tradeLocation,
+                formattedDate,
                 responseListener
         );
         RequestQueue queue = Volley.newRequestQueue(this);

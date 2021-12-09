@@ -5,18 +5,17 @@
     $ProductName = $_POST["productName"];
     $ProductDesc = $_POST["productDesc"];
     $productPrice = $_POST["productPrice"];
-    $Processing = $_POST["status"];
 
     $statement = mysqli_prepare($con, 
         "UPDATE product 
-            SET productName = ?, productDesc = ?, productPrice = ?, Processing = ?
+            SET productName = ?, productDesc = ?, productPrice = ?
             WHERE productNumber = ?;"
             );
-    mysqli_stmt_bind_param($statement, "ssdsi", $ProductName, $ProductDesc, $productPrice, $Processing, $ProductNumber);
+    mysqli_stmt_bind_param($statement, "ssdi", $ProductName, $ProductDesc, $productPrice, $ProductNumber);
     mysqli_stmt_execute($statement);
     
     $statement = mysqli_prepare($con, 
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, Processing
+        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice
 	        FROM product 
             WHERE productNumber = ?;"
             );
@@ -26,7 +25,7 @@
     mysqli_stmt_execute($statement);
 
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $Processing);
+    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice);
 
     $response = array();
 
@@ -37,7 +36,6 @@
         $response["ProductName"] = $ProductName;
         $response["ProductDesc"] = $ProductDesc;
         $response["ProductPrice"] = $ProductPrice;
-        $response["Processing"] = $Processing;
     }
 
     echo json_encode($response);

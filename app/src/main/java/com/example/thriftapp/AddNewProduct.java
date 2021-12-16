@@ -56,7 +56,13 @@ public class AddNewProduct extends AppCompatActivity {
         ownerName = intent.getStringExtra("userName");
 
         ButterKnife.bind(this);
+    }
 
+    @OnClick(R.id.ivPhoto)
+    public void OnAddImage() {
+
+        ImageBottomSheetDialog bottomSheetDialog = new ImageBottomSheetDialog();
+        bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
     }
 
     @SuppressLint("NonConstantResourceId")

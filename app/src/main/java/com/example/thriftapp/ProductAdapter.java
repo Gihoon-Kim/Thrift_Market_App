@@ -18,11 +18,16 @@ import java.util.ArrayList;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements Filterable {
 
+    private int searchOption;
     private final ArrayList<ProductsInformation> unFilteredList;
     private ArrayList<ProductsInformation> filteredList;
 
     private OnItemClickListener mListener = null;
 
+    public void setSearchOption(int option) {
+
+        this.searchOption = option;
+    }
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -39,10 +44,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     for (int i = 0; i < unFilteredList.size(); i++) {
 
                         Log.i("Adapter", "in for loop");
-                        if (unFilteredList.get(i).getProductName().toLowerCase().contains(charString.toLowerCase())) {
+                        switch (searchOption) {
+                            case 0:
+                                if (unFilteredList.get(i).getProductName().toLowerCase().contains(charString.toLowerCase())) {
 
-                            filteringList.add(unFilteredList.get(i));
+                                    filteringList.add(unFilteredList.get(i));
+                                }
+                                break;
+                            case 1:
+                                if (unFilteredList.get(i).getProductOwner().toLowerCase().contains(charString.toLowerCase())) {
+
+                                    filteringList.add(unFilteredList.get(i));
+                                }
+                                break;
+                            default:
+                                if (unFilteredList.get(i).getTradeLocation().toLowerCase().contains(charString.toLowerCase())) {
+
+                                    filteringList.add(unFilteredList.get(i));
+                                }
                         }
+
                     }
 
                     filteredList = filteringList;

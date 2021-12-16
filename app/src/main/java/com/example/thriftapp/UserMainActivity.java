@@ -7,8 +7,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -30,6 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 public class UserMainActivity extends AppCompatActivity implements TextWatcher {
 
@@ -39,12 +43,16 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
     private String userName;
     private int userNumber;
 
+    private int SEARCH_OPTION = 0;
+
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rvItemList)
     RecyclerView rvItemList;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etSearch)
     EditText etSearch;
+    @BindView(R.id.spinnerSearch)
+    Spinner spinnerSearch;
 
     ArrayList<ProductsInformation> list = null;
     ProductAdapter adapter;
@@ -99,6 +107,29 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         Create custom listener object and send
          */
         MakeAdapterClickable();
+
+        String[] searchList = getResources().getStringArray(R.array.search_list);
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                searchList
+        );
+        spinnerSearch.setAdapter(spinnerAdapter);
+
+        spinnerSearch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                SEARCH_OPTION = position;
+                Log.i(TAG, "Search Option = " + SEARCH_OPTION);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void MakeAdapterClickable() {
@@ -262,6 +293,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+        adapter.setSearchOption(SEARCH_OPTION);
         adapter.getFilter().filter(s);
     }
 

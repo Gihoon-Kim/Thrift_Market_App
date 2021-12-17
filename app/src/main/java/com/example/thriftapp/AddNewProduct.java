@@ -2,9 +2,11 @@ package com.example.thriftapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -42,6 +44,8 @@ public class AddNewProduct extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etLocation)
     EditText etTradeLocation;
+    @BindView(R.id.ivPhoto)
+    ImageView ivPhoto;
 
     private int ownerNumber;
     private String ownerName;
@@ -61,7 +65,7 @@ public class AddNewProduct extends AppCompatActivity {
     @OnClick(R.id.ivPhoto)
     public void OnAddImage() {
 
-        ImageBottomSheetDialog bottomSheetDialog = new ImageBottomSheetDialog();
+        ImageBottomSheetDialog bottomSheetDialog = new ImageBottomSheetDialog(ivPhoto);
         bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
     }
 

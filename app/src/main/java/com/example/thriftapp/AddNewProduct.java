@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,8 +45,12 @@ public class AddNewProduct extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.etLocation)
     EditText etTradeLocation;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.ivPhoto)
     ImageView ivPhoto;
+    @SuppressLint("NonConstantResourceId")
+    @BindView(R.id.rvImages)
+    RecyclerView rvImages;
 
     private int ownerNumber;
     private String ownerName;
@@ -62,10 +67,11 @@ public class AddNewProduct extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.ivPhoto)
     public void OnAddImage() {
 
-        ImageBottomSheetDialog bottomSheetDialog = new ImageBottomSheetDialog(ivPhoto);
+        ImageBottomSheetDialog bottomSheetDialog = new ImageBottomSheetDialog(getApplicationContext(), ivPhoto, rvImages);
         bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
     }
 

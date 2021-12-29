@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class GetMyProductRequest extends StringRequest {
 
-    private final static String URL = "http://10.0.2.2/TMA_GetMyProducts.php";
+    private final static String URL = "http://hoonyhosting.dothome.co.kr/php/TMA_GetMyProducts.php";
     private final Map<String, String> map;
 
     public GetMyProductRequest(int userNumber, Response.Listener<String> listener) {

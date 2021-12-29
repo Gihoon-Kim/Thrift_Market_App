@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
 
-    private final static String URL = "http://10.0.2.2/TMA_UserRegister.php";
+    private final static String URL = "http://hoonyhosting.dothome.co.kr/php/TMA_UserRegister.php";
     private final Map<String, String> map;
 
     public RegisterRequest(String userEmail, String userName, String userPwd, String userPhoneNumber, Response.Listener<String> listener) {

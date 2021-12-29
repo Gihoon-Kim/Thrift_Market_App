@@ -2,17 +2,16 @@
     $con = mysqli_connect('localhost', 'root', '', 'tma_user');
 
     $statement = mysqli_prepare($con, 
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, tradeLocation, AddedDate
+        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, tradeLocation
 	        FROM product p
             JOIN user u
 	        ON p.ProductOwner = u.UserNumber
-            WHERE Processing = \"Waiting\"
-            ORDER BY ProductNumber DESC;"
+            WHERE Processing = \"Waiting\";"
             );
     mysqli_stmt_execute($statement);
 
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation, $AddedDate);
+    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation);
 
     $response = array();
 
@@ -26,8 +25,7 @@
                         'ProductDesc' => $ProductDesc,
                         'ProductOwner' => $ProductOwner,
                         'ProductPrice' => $ProductPrice,
-                        'TradeLocation' => $TradeLocation,
-                        'AddedDate' => $AddedDate
+                        'TradeLocation' => $TradeLocation
                     ));
     }
 

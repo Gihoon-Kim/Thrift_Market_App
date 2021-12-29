@@ -1,17 +1,19 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $ProductNumber = $_POST["productNumber"];
 
-    $statement = mysqli_prepare($con,
-        "DELETE FROM product
-            WHERE ProductNumber = ?;"
-    );
+    $sql = "DELETE FROM product
+            WHERE ProductNumber = '$ProductNumber';";
 
-    mysqli_stmt_bind_param($statement, "i", $ProductNumber);
-    mysqli_stmt_execute($statement);
+    $result = mysqli_query($conn, $sql);
 
-    if ($statement) {
+    if ($result) {
         $response["success"] = true;
     }
     else {

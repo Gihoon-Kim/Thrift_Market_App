@@ -1,32 +1,32 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
-    mysqli_query($con, 'SET NAMES utf8');
+
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $UserEmail = $_POST["userEmail"];
     $UserPassword = $_POST["userPassword"];
 
-    $statement = mysqli_prepare($con, 
-    "SELECT UserNumber, UserEmail, UserPassword, UserName, UserPhoneNumber
-        FROM user 
-        WHERE UserEmail = ? AND UserPassword = ?"
-        );
-    mysqli_stmt_bind_param($statement, "ss", $UserEmail, $UserPassword);
-    mysqli_stmt_execute($statement);
+    $sql = "SELECT UserNumber, UserEmail, UserPassword, UserName, UserPhoneNumber
+            FROM user
+            WHERE UserEmail = '$UserEmail' AND UserPassword = '$UserPassword'";
 
-    mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $UserNumber, $UserEmail, $UserPwd, $UserName, $UserPhoneNumber);
+    $result = mysqli_query($conn, $sql);
 
     $response = array();
     $response["success"] = false;
 
-    while (mysqli_stmt_fetch($statement)) {
+    while ($row = mysqli_fetch_array($result)) {
 
         $response["success"] = true;
-        $response["UserNumber"] = $UserNumber;
-        $response["UserEmail"] = $UserEmail;
-        $response["UserPassword"] = $UserPassword;
-        $response["UserPhoneNumber"] = $UserPhoneNumber;
-        $response["UserName"] = $UserName;
+        $response["UserNumber"] = $row["UserNumber"];
+        $response["UserEmail"] = $row["UserEmail"];
+        $response["UserPassword"] = $row["UserPassword"];
+        $response["UserPhoneNumber"] = $row["UserPhoneNumber"];
+        $response["UserName"] = $row["UserName"];
     }
 
     echo json_encode($response);

@@ -1,16 +1,34 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $ProductName = $_POST["productName"];
     $ProductDesc = $_POST["productDesc"];
     $productPrice = $_POST["productPrice"];
     $productOwner = $_POST["productOwner"];
     $Location = $_POST["location"];
+    $AddedDate = $_POST["AddedDate"];
 
-    $statement = mysqli_prepare($con, "INSERT INTO product (ProductName, ProductDesc, ProductPrice, ProductOwner, tradeLocation) VALUES (?, ?, ?, ?, ?)");
-    mysqli_stmt_bind_param($statement, "ssdis", $ProductName, $ProductDesc, $productPrice, $productOwner, $Location);
-    mysqli_stmt_execute($statement);
-
+    $sql = "INSERT INTO product (
+        ProductName, 
+        ProductDesc, 
+        ProductPrice, 
+        ProductOwner, 
+        tradeLocation,
+        AddedDate) 
+        VALUES (
+            '$ProductName', 
+            '$ProductDesc', 
+            '$productPrice',
+            '$productOwner', 
+            '$Location',
+            '$AddedDate')";
+    
+    $result = mysqli_query($conn, $sql);
     $response = array();
     $response["success"] = true;
 

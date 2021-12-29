@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DeleteProductRequest extends StringRequest {
 
-    private final static String URL = "http://10.0.2.2/TMA_DeleteProduct.php";
+    private final static String URL = "http://hoonyhosting.dothome.co.kr/php/TMA_DeleteProduct.php";
     private final Map<String, String> map;
 
     public DeleteProductRequest(String productNumber, Response.Listener<String> listener) {

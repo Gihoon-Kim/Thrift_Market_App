@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class UpdateProductRequest extends StringRequest {
 
-    private final static String URL = "http://10.0.2.2/TMA_UpdateProduct.php";
+    private final static String URL = "http://hoonyhosting.dothome.co.kr/php/TMA_UpdateProduct.php";
     private final Map<String, String> map;
 
     public UpdateProductRequest(String productNumber, String productName, String productDesc, float productPrice, String status, Response.Listener<String> listener) {

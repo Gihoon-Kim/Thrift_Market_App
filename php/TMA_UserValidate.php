@@ -1,20 +1,26 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
-    mysqli_query($con, 'SET NAMES utf8');
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $UserEmail = $_POST["userEmail"];
 
-    $statement = mysqli_prepare($con, "SELECT UserEmail FROM user WHERE UserEmail = ?");
-
-    mysqli_stmt_bind_param($statement, "s", $UserEmail);
-    mysqli_stmt_execute($statement);
-    mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $UserEmail);
+    $sql = "SELECT UserEmail 
+            FROM user
+            WHERE UserEmail = '$UserEmail'";
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        echo mysqli_error($conn);
+    }
 
     $response = array();
     $response["success"] = true;
 
-    while (mysqli_stmt_fetch($statement)) {
+    $board = mysqli_fetch_array($result); 
+    if (!is_null($board)) {
 
         $response["success"] = false;
         $response["userEmail"] = $UserEmail;

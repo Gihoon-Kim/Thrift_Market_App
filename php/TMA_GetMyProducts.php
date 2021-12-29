@@ -4,7 +4,7 @@
     $ProductOwner = $_POST["productOwner"];
 
     $statement = mysqli_prepare($con,
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing, AddedDate
+        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing
             FROM product p
             JOIN user u
             ON p.ProductOwner = u.UserNumber
@@ -14,7 +14,7 @@
     mysqli_stmt_execute($statement);
 
     mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation, $Processing, $AddedDate);
+    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation, $Processing);
 
     $response = array();
 
@@ -28,8 +28,7 @@
                         'ProductDesc' => $ProductDesc,
                         'ProductOwner' => $ProductOwner,
                         'ProductPrice' => $ProductPrice,
-                        'TradeLocation' => $TradeLocation,
-                        'AddedDate' => $AddedDate
+                        'TradeLocation' => $TradeLocation
                     ));
     }
 

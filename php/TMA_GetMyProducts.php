@@ -1,38 +1,37 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $ProductOwner = $_POST["productOwner"];
 
-    $statement = mysqli_prepare($con,
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing
+    $sql = "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing, AddedDate
             FROM product p
             JOIN user u
             ON p.ProductOwner = u.UserNumber
-            WHERE ProductOwner = ?;"
-            );
-    mysqli_stmt_bind_param($statement, "i", $ProductOwner);
-    mysqli_stmt_execute($statement);
+            WHERE ProductOwner = '$ProductOwner';";
 
-    mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $ProductOwner, $TradeLocation, $Processing);
+    $result = mysqli_query($conn, $sql);
 
     $response = array();
 
-    while (mysqli_stmt_fetch($statement)) {
+    while ($row = mysqli_fetch_array($result)) {
 
         array_push($response, 
                     array(
                         'success' => true,
-                        'ProductNumber' => $ProductNumber,
-                        'ProductName' => $ProductName,
-                        'ProductDesc' => $ProductDesc,
-                        'ProductOwner' => $ProductOwner,
-                        'ProductPrice' => $ProductPrice,
-                        'TradeLocation' => $TradeLocation
+                        'ProductNumber' => $row["ProductNumber"],
+                        'ProductName' => $row["ProductName"],
+                        'ProductDesc' => $row["ProductDesc"],
+                        'ProductOwner' => $row["UserName"],
+                        'ProductPrice' => $row["ProductPrice"],
+                        'TradeLocation' => $row["TradeLocation"],
+                        'AddedDate' => $row["AddedDate"]
                     ));
     }
 
     echo json_encode(array("Products"=>$response));
-
-    mysqli_close($con);
 ?>

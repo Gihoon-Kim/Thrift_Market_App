@@ -1,5 +1,10 @@
 <?php
-    $con = mysqli_connect('localhost', 'root', '', 'tma_user');
+    $db_name = "hoonyhosting";
+    $username = "hoonyhosting";
+    $password = "wjsghkrl1!";
+    $servername = "localhost";
+
+    $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $ProductNumber = $_POST["productNumber"];
     $ProductName = $_POST["productName"];
@@ -7,37 +12,31 @@
     $productPrice = $_POST["productPrice"];
     $Processing = $_POST["status"];
 
-    $statement = mysqli_prepare($con, 
-        "UPDATE product 
-            SET productName = ?, productDesc = ?, productPrice = ?, Processing = ?
-            WHERE productNumber = ?;"
-            );
-    mysqli_stmt_bind_param($statement, "ssdsi", $ProductName, $ProductDesc, $productPrice, $Processing, $ProductNumber);
-    mysqli_stmt_execute($statement);
+    $sql = "UPDATE product 
+            SET productName = '$ProductName', 
+                productDesc = '$ProductDesc', 
+                productPrice = '$productPrice', 
+                Processing = '$Processing'
+            WHERE productNumber = '$ProductNumber';";
     
-    $statement = mysqli_prepare($con, 
-        "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, Processing
-	        FROM product 
-            WHERE productNumber = ?;"
-            );
-    
-    
-    mysqli_stmt_bind_param($statement, "i", $ProductNumber);
-    mysqli_stmt_execute($statement);
+    $result = mysqli_query($conn, $sql);
 
-    mysqli_stmt_store_result($statement);
-    mysqli_stmt_bind_result($statement, $ProductNumber, $ProductName, $ProductDesc, $ProductPrice, $Processing);
+    $sql = "SELECT ProductNumber, ProductName, ProductDesc, ProductPrice, Processing
+            FROM product
+            WHERE productNumber = '$ProductNumber'";
+    
+    $result = mysqli_query($conn, $sql);
 
     $response = array();
 
-    while (mysqli_stmt_fetch($statement)) {
+    while ($row = mysqli_fetch_array($result)) {
 
         $response["success"] = true;
-        $response["ProductNumber"] = $ProductNumber;
-        $response["ProductName"] = $ProductName;
-        $response["ProductDesc"] = $ProductDesc;
-        $response["ProductPrice"] = $ProductPrice;
-        $response["Processing"] = $Processing;
+        $response["ProductNumber"] = $row["ProductNumber"];
+        $response["ProductName"] = $row["ProductName"];
+        $response["ProductDesc"] = $row["ProductDesc"];
+        $response["ProductPrice"] = $row["ProductPrice"];
+        $response["Processing"] = $row["Processing"];
     }
 
     echo json_encode($response);

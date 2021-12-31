@@ -26,7 +26,7 @@
                         'ProductDesc' => $row["ProductDesc"],
                         'ProductOwner' => $row["UserName"],
                         'ProductPrice' => $row["ProductPrice"],
-                        'TradeLocation' => $row["TradeLocation"],
+                        'TradeLocation' => $row["tradeLocation"],
                         'AddedDate' => $row["AddedDate"]
                     ));
     }

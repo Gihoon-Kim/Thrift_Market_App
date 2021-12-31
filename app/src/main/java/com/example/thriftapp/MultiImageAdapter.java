@@ -49,6 +49,11 @@ public class MultiImageAdapter extends RecyclerView.Adapter<MultiImageAdapter.Vi
                 .into(holder.imageView);
     }
 
+    public Uri getUri(int position) {
+
+        return mData.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mData.size();

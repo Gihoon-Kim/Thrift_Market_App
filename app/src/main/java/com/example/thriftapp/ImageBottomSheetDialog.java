@@ -51,6 +51,11 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
         this.rvImages = rvImages;
     }
 
+    public MultiImageAdapter getAdapter() {
+
+        return adapter;
+    }
+
     @SuppressLint("IntentReset")
     @Nullable
     @Override
@@ -139,6 +144,7 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
                                 for (int i = 0; i < clipData.getItemCount(); i++) {
 
                                     Uri imageUri = clipData.getItemAt(i).getUri();
+                                    Log.i(TAG, "Image URI = " + imageUri);
 
                                     try {
 

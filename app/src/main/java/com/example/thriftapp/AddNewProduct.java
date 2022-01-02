@@ -4,15 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,20 +24,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,6 +60,8 @@ public class AddNewProduct extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
+    @BindView(R.id.btnAddImage)
+    Button btnAddImage;
 
     private int ownerNumber;
     private String ownerName;
@@ -87,10 +82,10 @@ public class AddNewProduct extends AppCompatActivity {
     }
 
     @SuppressLint("NonConstantResourceId")
-    @OnClick(R.id.ivPhoto)
+    @OnClick(R.id.btnAddImage)
     public void OnAddImage() {
 
-        bottomSheetDialog = new ImageBottomSheetDialog(getApplicationContext(), ivPhoto, rvImages);
+        bottomSheetDialog = new ImageBottomSheetDialog(getApplicationContext(), ivPhoto, rvImages, btnAddImage);
         bottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
     }
 
@@ -117,23 +112,41 @@ public class AddNewProduct extends AppCompatActivity {
             productPrice = Float.parseFloat(etProductPrice.getText().toString().trim());
         }
 
-        if (productName.equals("") || productPrice < 0) {
+        if (productName.equals("") || productPrice < 0 || btnAddImage.getVisibility() != View.GONE) {
 
             AlertDialog dialog;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            dialog = builder
-                    .setMessage("Error cause : \n - Product Name should not be empty \n - Product Price should be higher than 0")
-                    .setPositiveButton("OK", null)
-                    .create();
-            dialog.show();
+
+            if (productName.equals("")) {
+
+                dialog = builder
+                        .setMessage("Error cause : \n - Product Name should not be empty")
+                        .setPositiveButton("OK", null)
+                        .create();
+                dialog.show();
+            } else if (productPrice < 0) {
+
+                dialog = builder
+                        .setMessage("Error cause : \n - Product price must higher than 0")
+                        .setPositiveButton("OK", null)
+                        .create();
+                dialog.show();
+            } else {
+
+                dialog = builder
+                        .setMessage("Error cause : \n - Image must be added")
+                        .setPositiveButton("OK", null)
+                        .create();
+                dialog.show();
+            }
             return;
         }
 
-        Response.Listener<String> responseListener = response -> {
+        Response.Listener<String> addProductListener = response -> {
 
             try {
 
-                Log.i(TAG, response);
+                Log.i(TAG, "Add Product Listener Response = " + response);
                 JSONObject jsonObject = new JSONObject(response);
                 boolean success = jsonObject.getBoolean("success");
                 Intent intent = new Intent();
@@ -161,9 +174,36 @@ public class AddNewProduct extends AppCompatActivity {
             }
         };
 
+        Response.Listener<String> addProductImageListener = response -> {
 
+            try {
+
+                Log.i(TAG, "Add Product Image Listener Response = " + response);
+                JSONObject jsonObject = new JSONObject(response);
+                boolean success = jsonObject.getBoolean("success");
+                Intent intent = new Intent();
+
+                if (success) {
+
+                    Toast.makeText(AddNewProduct.this, "Product Image is added", Toast.LENGTH_LONG).show();
+
+                    intent.putExtra("callType", 1);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+
+                    Toast.makeText(AddNewProduct.this, "Product Image is NOT added", Toast.LENGTH_LONG).show();
+                    intent.putExtra("callType", 0);
+                }
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+        };
+
+        // Get image and encode to bitmap, add to ArrayList
         ArrayList<String> imgArrayList = new ArrayList<>();
-        int numOfImages = 0;
+        int numOfImages;
         if (ivPhoto.getVisibility() == View.VISIBLE) {
 
             BitmapDrawable bitmapDrawable = (BitmapDrawable) ivPhoto.getDrawable();
@@ -194,6 +234,7 @@ public class AddNewProduct extends AppCompatActivity {
             numOfImages = multiImageAdapter.getItemCount();
         }
 
+        // Convert ArrayList to JSON
         JSONObject jsonObject = new JSONObject();
         for (int i = 0; i < imgArrayList.size(); i++) {
 
@@ -206,6 +247,7 @@ public class AddNewProduct extends AppCompatActivity {
             }
         }
 
+        // Add Product into database
         AddProductRequest addProductRequest = new AddProductRequest(
                 productName,
                 productDesc,
@@ -213,12 +255,21 @@ public class AddNewProduct extends AppCompatActivity {
                 ownerNumber,
                 tradeLocation,
                 formattedDate,
-                jsonObject,
-                numOfImages,
-                responseListener
+                addProductListener
         );
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(addProductRequest);
+        RequestQueue addProductQueue = Volley.newRequestQueue(this);
+        addProductQueue.add(addProductRequest);
+
+        // Add Product Images into database
+        AddProductImageRequest addProductImagesRequest = new AddProductImageRequest(
+                productName,
+                numOfImages,
+                jsonObject,
+                ownerNumber,
+                addProductImageListener
+        );
+        RequestQueue addProductImagesQueue = Volley.newRequestQueue(this);
+        addProductImagesQueue.add(addProductImagesRequest);
     }
 
     private String IncodetoBitmap(Bitmap bitmap) {

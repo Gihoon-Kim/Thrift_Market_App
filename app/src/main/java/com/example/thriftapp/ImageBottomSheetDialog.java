@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -44,11 +45,14 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
     ImageView ivPhoto;
     ActivityResultLauncher<Intent> resultLauncher;
 
-    public ImageBottomSheetDialog(Context context, ImageView imageView, RecyclerView rvImages) {
+    Button btnAddImage;
+
+    public ImageBottomSheetDialog(Context context, ImageView imageView, RecyclerView rvImages, Button btnAddImage) {
 
         this.context = context;
         this.ivPhoto = imageView;
         this.rvImages = rvImages;
+        this.btnAddImage = btnAddImage;
     }
 
     public MultiImageAdapter getAdapter() {
@@ -102,6 +106,7 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
 
                     ivPhoto.setVisibility(View.VISIBLE);
                     rvImages.setVisibility(View.GONE);
+                    btnAddImage.setVisibility(View.GONE);
                     dismiss();
                 }
         );
@@ -168,6 +173,7 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
 
                         rvImages.setVisibility(View.VISIBLE);
                         ivPhoto.setVisibility(View.GONE);
+                        btnAddImage.setVisibility(View.GONE);
                     }
                     dismiss();
                 });

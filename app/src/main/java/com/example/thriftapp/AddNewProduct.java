@@ -60,6 +60,7 @@ public class AddNewProduct extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.btnAddImage)
     Button btnAddImage;
 

@@ -2,9 +2,12 @@ package com.example.thriftapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -91,7 +94,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                     resultIntent.getStringExtra("productOwner"),
                                     resultIntent.getStringExtra("productPrice"),
                                     resultIntent.getStringExtra("tradeLocation"),
-                                    resultIntent.getStringExtra("addedDate")
+                                    resultIntent.getStringExtra("addedDate"),
+                                    resultIntent.getParcelableExtra("image")
                             );
                             list.add(productsInformation);
                             adapter.notifyDataSetChanged();
@@ -108,6 +112,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
          */
         MakeAdapterClickable();
 
+        // Searching options
         String[] searchList = getResources().getStringArray(R.array.search_list);
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
@@ -253,6 +258,10 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         String productPrice = String.valueOf(item.getDouble("ProductPrice"));
                         String tradeLocation = item.getString("TradeLocation");
                         String addedDate = item.getString("AddedDate");
+                        String imageBase64 = item.getString("ImageFile");
+                        byte[] decodeBase64 = Base64.decode(imageBase64, 0);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(decodeBase64, 0, decodeBase64.length);
+                        Log.i(TAG, "Decode to Bitmap : " + bitmap.toString());
 
                         ProductsInformation productsInformation = new ProductsInformation(
                                 productNumber,
@@ -261,7 +270,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                 productOwner,
                                 productPrice,
                                 tradeLocation,
-                                addedDate
+                                addedDate,
+                                bitmap
                         );
                         list.add(productsInformation);
                         adapter.notifyDataSetChanged();

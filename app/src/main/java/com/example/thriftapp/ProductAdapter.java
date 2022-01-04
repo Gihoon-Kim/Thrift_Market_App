@@ -2,12 +2,14 @@ package com.example.thriftapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,6 +88,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     // ViewHolder Class that save Item View
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView ivImage;
         TextView tvProductName;
         TextView tvProductDesc;
         TextView tvProductOwner;
@@ -96,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            ivImage = itemView.findViewById(R.id.ivImage);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvProductDesc = itemView.findViewById(R.id.tvProductDesc);
             tvProductOwner = itemView.findViewById(R.id.tvProductOwner);
@@ -147,6 +151,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         String productPrice = filteredList.get(position).getProductPrice();
         String tradeLocation = filteredList.get(position).getTradeLocation();
         String addedDate = filteredList.get(position).getAddedDate();
+        Bitmap productImage = filteredList.get(position).getImageBitmap();
 
         holder.tvProductName.setText("product Name : " + productName);
         holder.tvProductDesc.setText("product Description : " + productDesc);
@@ -154,6 +159,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvProductPrice.setText("product Price : " + productPrice);
         holder.tvTradeLocation.setText("Trade Location : " + tradeLocation);
         holder.tvAddedDate.setText("Registered Date : " + addedDate);
+        holder.ivImage.setImageBitmap(productImage);
     }
 
     @Override

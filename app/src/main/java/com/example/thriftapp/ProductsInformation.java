@@ -1,5 +1,7 @@
 package com.example.thriftapp;
 
+import android.graphics.Bitmap;
+
 public class ProductsInformation {
 
     private String productNumber;
@@ -10,6 +12,16 @@ public class ProductsInformation {
     private String tradeLocation;
     private String status;
     private String addedDate;
+
+    public Bitmap getImageBitmap() {
+        return imageBitmap;
+    }
+
+    public void setImageBitmap(Bitmap imageBitmap) {
+        this.imageBitmap = imageBitmap;
+    }
+
+    private Bitmap imageBitmap;
 
     public String getAddedDate() {
         return addedDate;
@@ -42,7 +54,8 @@ public class ProductsInformation {
             String  productOwner,
             String productPrice,
             String tradeLocation,
-            String addedDate
+            String addedDate,
+            Bitmap imageBitmap
     ) {
 
         this.productNumber = productNumber;
@@ -52,6 +65,7 @@ public class ProductsInformation {
         this.productPrice = productPrice;
         this.tradeLocation = tradeLocation;
         this.addedDate = addedDate;
+        this.imageBitmap = imageBitmap;
     }
 
     public String getProductNumber() {

@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -30,6 +32,7 @@ public class ContactDialog {
     TextView tvProductDesc;
     TextView tvProductPrice;
     TextView tvTradeLocation;
+    ImageView ivImage;
 
     private final Context context;
     private final String productNumber;
@@ -37,6 +40,7 @@ public class ContactDialog {
     private final String productDesc;
     private final String productPrice;
     private final String tradeLocation;
+    private final Bitmap productImage;
     private Dialog dialog;
     private Dialog contactDialog;
 
@@ -51,7 +55,8 @@ public class ContactDialog {
             String productName,
             String productDesc,
             String productPrice,
-            String tradeLocation
+            String tradeLocation,
+            Bitmap productImage
     ) {
 
         this.context = context;
@@ -60,6 +65,7 @@ public class ContactDialog {
         this.productDesc = productDesc;
         this.productPrice = productPrice;
         this.tradeLocation = tradeLocation;
+        this.productImage = productImage;
     }
 
     public void CallDialog() {
@@ -68,7 +74,7 @@ public class ContactDialog {
 
         dialog.setContentView(R.layout.dialog_othersproduct);
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(params);
         dialog.show();
@@ -82,6 +88,7 @@ public class ContactDialog {
         tvProductDesc = dialog.findViewById(R.id.tvProductDesc);
         tvProductPrice = dialog.findViewById(R.id.tvProductPrice);
         tvTradeLocation = dialog.findViewById(R.id.tvTradeLocation);
+        ivImage = dialog.findViewById(R.id.ivPhoto);
 
         Button btnContact = dialog.findViewById(R.id.btnContact);
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
@@ -90,6 +97,7 @@ public class ContactDialog {
         tvProductDesc.setText(productDesc);
         tvProductPrice.setText(productPrice);
         tvTradeLocation.setText(tradeLocation);
+        ivImage.setImageBitmap(Bitmap.createScaledBitmap(productImage, 300, 250, true));
 
         // Get Seller's information
         Response.Listener<String> responseListener = response -> {

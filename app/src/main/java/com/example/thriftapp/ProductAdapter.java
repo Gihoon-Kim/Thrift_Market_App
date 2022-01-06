@@ -24,6 +24,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     private final ArrayList<ProductsInformation> unFilteredList;
     private ArrayList<ProductsInformation> filteredList;
 
+    private Context mContext;
     private OnItemClickListener mListener = null;
 
     public void setSearchOption(int option) {
@@ -122,10 +123,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     // Constructor get Data list object
-    ProductAdapter(ArrayList<ProductsInformation> list) {
+    ProductAdapter(ArrayList<ProductsInformation> list, Context mContext) {
 
         this.unFilteredList = list;
         this.filteredList = list;
+        this.mContext = mContext;
     }
 
     @NonNull
@@ -159,6 +161,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvProductPrice.setText("product Price : " + productPrice);
         holder.tvTradeLocation.setText("Trade Location : " + tradeLocation);
         holder.tvAddedDate.setText("Registered Date : " + addedDate);
+        GlideApp.with(mContext)
+                .load(productImage)
+                .into(holder.ivImage);
         holder.ivImage.setImageBitmap(productImage);
     }
 

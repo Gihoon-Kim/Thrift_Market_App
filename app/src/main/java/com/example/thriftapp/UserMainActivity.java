@@ -115,7 +115,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         // Searching options
         String[] searchList = getResources().getStringArray(R.array.search_list);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
                 searchList
@@ -164,7 +164,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         list.get(position).getProductName(),
                         list.get(position).getProductDesc(),
                         list.get(position).getProductPrice(),
-                        list.get(position).getTradeLocation()
+                        list.get(position).getTradeLocation(),
+                        list.get(position).getImageBitmap()
                 );
                 contactDialog.CallDialog();
             }
@@ -179,7 +180,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         // 2 for mine
         AddProductsIntoList(list, GET_ALL_PRODUCTS);
 
-        adapter = new ProductAdapter(list);
+        adapter = new ProductAdapter(list, getApplicationContext());
         rvItemList.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
@@ -207,7 +208,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
         // 2 for mine
         AddProductsIntoList(list, GET_MY_PRODUCTS);
 
-        adapter = new ProductAdapter(list);
+        adapter = new ProductAdapter(list, getApplicationContext());
         rvItemList.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
@@ -259,6 +260,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         String tradeLocation = item.getString("TradeLocation");
                         String addedDate = item.getString("AddedDate");
                         String imageBase64 = item.getString("ImageFile");
+                        // Get image from server, and decode to bitmap.
                         byte[] decodeBase64 = Base64.decode(imageBase64, 0);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(decodeBase64, 0, decodeBase64.length);
                         Log.i(TAG, "Decode to Bitmap : " + bitmap.toString());

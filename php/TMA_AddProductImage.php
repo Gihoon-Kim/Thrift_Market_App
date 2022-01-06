@@ -56,13 +56,14 @@
 
             break;
         } else {
-            if ($stmt = $conn->prepare("INSERT INTO images (imageName, ProductName, FilePath) VALUES (?, ?, ?)")) {
+            if ($stmt = $conn->prepare("INSERT INTO images (imageName, ProductName, FilePath, ImageNumber) VALUES (?, ?, ?, ?)")) {
 
                 $stmt->bind_param(
-                    "sss", 
+                    "sssi", 
                     $imageName, 
                     $ProductName,
-                    $path
+                    $path,
+                    $i
                 );
                 $stmt->execute();
                 

@@ -12,12 +12,13 @@
     $productPrice = $_POST["productPrice"];
     $Processing = $_POST["status"];
 
-    $sql = "UPDATE product 
-            SET productName = '$ProductName', 
-                productDesc = '$ProductDesc', 
-                productPrice = '$productPrice', 
-                Processing = '$Processing'
-            WHERE productNumber = '$ProductNumber';";
+    $sql = "UPDATE product, images
+            SET product.productName = '$ProductName', 
+                product.productDesc = '$ProductDesc', 
+                product.productPrice = '$productPrice', 
+                product.Processing = '$Processing',
+                images.productName = '$ProductName'
+            WHERE product.productNumber = '$ProductNumber' AND  images.productName = product.productName";
     
     $result = mysqli_query($conn, $sql);
 

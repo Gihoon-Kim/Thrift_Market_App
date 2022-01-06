@@ -13,7 +13,7 @@
             JOIN user u
             JOIN images i
             ON p.ProductOwner = u.UserNumber
-            WHERE ProductOwner = 14 AND i.ImageNumber = 0 AND i.ProductName = p.ProductName;";
+            WHERE ProductOwner = $ProductOwner AND i.ImageNumber = 0 AND i.ProductName = p.ProductName;";
 
     $result = mysqli_query($conn, $sql);
 
@@ -23,7 +23,8 @@
 
         $ProductName = $row["ProductName"];
         $UserName = $row["UserName"];
-        $path = $row["FilePath"] . "/{$ProductName}" . "_1_{$UserName}" . ".jpeg";
+        $ImageName = $row["imageName"];
+        $path = $row["FilePath"] . "/{$ImageName}" . ".jpeg";
         $imageFile = file_get_contents($path);
         $imageFileData = base64_encode($imageFile);
         array_push($response, 

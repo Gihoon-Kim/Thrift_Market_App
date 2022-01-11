@@ -6,7 +6,7 @@
 
     $conn = mysqli_connect($servername, $username, $password, $db_name);
 
-    $sql = "SELECT ProductNumber, p.ProductName, ProductDesc, ProductPrice, u.UserName, tradeLocation, AddedDate, i.FilePath, i.imageName
+    $sql = "SELECT p.ProductNumber, p.ProductName, p.ProductDesc, p.ProductPrice, u.UserName, p.tradeLocation, p.AddedDate, i.FilePath, i.imageName
 	        FROM product p
 	        JOIN user u
             JOIN images i
@@ -21,7 +21,8 @@
 
         $ProductName = $row["ProductName"];
         $UserName = $row["UserName"];
-        $path = $row["FilePath"] . "/{$ProductName}" . "_1_{$UserName}" . ".jpeg";
+        $ImageName = $row["imageName"];
+        $path = $row["FilePath"] . "/{$ImageName}" . ".jpeg";
         $imageFile = file_get_contents($path);
         $imageFileData = base64_encode($imageFile);
         array_push($response, 

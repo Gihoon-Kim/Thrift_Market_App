@@ -1,83 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvImages"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="20dp"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btnAddImage"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/ic_baseline_camera_enhance_24"
-        android:layout_margin="20dp" />
-
-    <ImageView
-        android:id="@+id/ivPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="20dp"
-        android:visibility="gone"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_margin="30dp"
-        android:padding="30dp"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/etProductName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Product Name" />
-
-        <EditText
-            android:id="@+id/etProductPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:inputType="numberDecimal"
-            android:hint="Product Price" />
-
-        <EditText
-            android:id="@+id/etProductDesc"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImages"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="20dp"
             android:layout_weight="1"
-            android:layout_marginBottom="10dp"
-            android:gravity="top"
-            android:hint="Product Description"
-            android:ems="10"
-            android:background="@drawable/product_description_border"
-            tools:ignore="NestedWeights" />
-
-        <EditText
-            android:id="@+id/etLocation"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginBottom="10dp"
-            android:gravity="top"
-            android:hint="Where to meet" />
+            android:visibility="gone" />
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnAddImage"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/ic_baseline_camera_enhance_24" />
+
+        <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_margin="30dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etProductName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="30dp"
+                android:hint="Product Name" />
+
+            <EditText
+                android:id="@+id/etProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginBottom="30dp"
+                android:hint="Product Price"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/etProductDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/product_description_border"
+                android:ems="20"
+                android:gravity="top"
+                android:hint="Product Description"
+                tools:ignore="NestedWeights" />
+
+            <EditText
+                android:id="@+id/etLocation"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="Where to meet" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
 </LinearLayout>

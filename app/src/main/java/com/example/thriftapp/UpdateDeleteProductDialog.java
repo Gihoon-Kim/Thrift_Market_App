@@ -34,14 +34,13 @@ public class UpdateDeleteProductDialog {
 
     private Context context;
     private String productNumber;
-    private final String productName;
-    private final String productDesc;
-    private final String productPrice;
+    private String productName;
+    private String productDesc;
+    private String productPrice;
     private Dialog dialog;
     private ProductAdapter adapter;
     private int position;
     private ArrayList<ProductsInformation> list;
-    private String status;
 
     public UpdateDeleteProductDialog(
             Context context,
@@ -93,7 +92,7 @@ public class UpdateDeleteProductDialog {
 
         String[] status = context.getResources().getStringArray(R.array.status);
 
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(
                 context,
                 android.R.layout.simple_spinner_item,
                 status
@@ -106,7 +105,7 @@ public class UpdateDeleteProductDialog {
         String newName = etProductName.getText().toString();
         String newDesc = etProductDesc.getText().toString();
         float newPrice;
-        status = spinnerStatus.getSelectedItem().toString();
+        String status = spinnerStatus.getSelectedItem().toString();
 
         try {
 
@@ -151,8 +150,11 @@ public class UpdateDeleteProductDialog {
                 queue.add(updateProductRequest);
 
                 list.get(position).setProductName(newName);
+                productName = newName;
                 list.get(position).setProductDesc(newDesc);
+                productDesc = newDesc;
                 list.get(position).setProductPrice(String.valueOf(newPrice));
+                productPrice = String.valueOf(newPrice);
                 list.get(position).setStatus(status);
             }
 
@@ -202,6 +204,7 @@ public class UpdateDeleteProductDialog {
 
                     DeleteProductRequest deleteProductRequest = new DeleteProductRequest(
                             productNumber,
+                            productName,
                             responseListener
                     );
                     RequestQueue queue = Volley.newRequestQueue(context);

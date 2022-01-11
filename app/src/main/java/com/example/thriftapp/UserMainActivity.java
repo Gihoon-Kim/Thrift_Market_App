@@ -95,6 +95,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                     resultIntent.getStringExtra("productPrice"),
                                     resultIntent.getStringExtra("tradeLocation"),
                                     resultIntent.getStringExtra("addedDate"),
+                                    resultIntent.getIntExtra("productOwnerNumber", 0),
                                     resultIntent.getParcelableExtra("image")
                             );
                             list.add(productsInformation);
@@ -165,7 +166,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         list.get(position).getProductDesc(),
                         list.get(position).getProductPrice(),
                         list.get(position).getTradeLocation(),
-                        list.get(position).getImageBitmap()
+                        list.get(position).getImageBitmap(),
+                        list.get(position).getProductOwnerNumber()
                 );
                 contactDialog.CallDialog();
             }
@@ -255,7 +257,8 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                         String productNumber = item.getString("ProductNumber");
                         String productName = item.getString("ProductName");
                         String productDesc = item.getString("ProductDesc");
-                        String productOwner = item.getString("ProductOwner");
+                        int productOwnerNumber = item.getInt("ProductOwnerNumber");
+                        String productOwner = item.getString("OwnerName");
                         String productPrice = String.valueOf(item.getDouble("ProductPrice"));
                         String tradeLocation = item.getString("TradeLocation");
                         String addedDate = item.getString("AddedDate");
@@ -273,6 +276,7 @@ public class UserMainActivity extends AppCompatActivity implements TextWatcher {
                                 productPrice,
                                 tradeLocation,
                                 addedDate,
+                                productOwnerNumber,
                                 bitmap
                         );
                         list.add(productsInformation);

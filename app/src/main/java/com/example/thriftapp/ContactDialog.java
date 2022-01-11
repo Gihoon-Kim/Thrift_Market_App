@@ -1,13 +1,13 @@
 package com.example.thriftapp;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +17,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ContactDialog {
 
@@ -41,6 +44,7 @@ public class ContactDialog {
     private final String productPrice;
     private final String tradeLocation;
     private final Bitmap productImage;
+    private final int productOwnerNumber;
     private Dialog dialog;
     private Dialog contactDialog;
 
@@ -56,7 +60,8 @@ public class ContactDialog {
             String productDesc,
             String productPrice,
             String tradeLocation,
-            Bitmap productImage
+            Bitmap productImage,
+            int productOwnerNumber
     ) {
 
         this.context = context;
@@ -66,6 +71,7 @@ public class ContactDialog {
         this.productPrice = productPrice;
         this.tradeLocation = tradeLocation;
         this.productImage = productImage;
+        this.productOwnerNumber = productOwnerNumber;
     }
 
     public void CallDialog() {
@@ -90,6 +96,7 @@ public class ContactDialog {
         tvTradeLocation = dialog.findViewById(R.id.tvTradeLocation);
         ivImage = dialog.findViewById(R.id.ivPhoto);
 
+        Button btnOtherImages = dialog.findViewById(R.id.btnOtherImages);
         Button btnContact = dialog.findViewById(R.id.btnContact);
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
 
@@ -133,10 +140,51 @@ public class ContactDialog {
         RequestQueue queue = Volley.newRequestQueue(context);
         queue.add(sellerInfoRequest);
 
+        btnOtherImages.setOnClickListener(v -> {
+
+            // TODO : REQUEST IMAGES
+            Response.Listener<String> getImagesListener = response -> {
+
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+                    ArrayList<ItemImages> imageBitmapList = new ArrayList<>();
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        if (jsonObject.getBoolean("success")) {
+
+                            byte[] decodeBase64 = Base64.decode(jsonObject.getString("ImageFile"), 0);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(decodeBase64, 0, decodeBase64.length);
+                            ItemImages itemImages = new ItemImages(bitmap);
+                            imageBitmapList.add(itemImages);
+                        }
+                    }
+                    ImagesListDialog dialog = new ImagesListDialog(context, imageBitmapList);
+                    dialog.CallDialog();
+                } catch (JSONException e) {
+
+                    e.printStackTrace();
+                }
+            };
+
+            GetImagesRequest getImagesRequest = new GetImagesRequest(
+                    productName,
+                    productOwnerNumber,
+                    getImagesListener
+            );
+            RequestQueue getImageQueue = Volley.newRequestQueue(context);
+            getImageQueue.add(getImagesRequest);
+
+
+        });
+
         btnContact.setOnClickListener(v -> {
 
             // Show dialog that user can select method of connection to seller.
-            // Ways should be on Phone call, Text Message, or Email
+            // Ways should be on Phone call, Text Message
             // Create new Dialog and show
             contactDialog = new Dialog(context);
             contactDialog.setContentView(R.layout.dialog_contact_ways);

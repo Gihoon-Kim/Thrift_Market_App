@@ -12,6 +12,7 @@ public class ProductsInformation {
     private String tradeLocation;
     private String status;
     private String addedDate;
+    private int productOwnerNumber;
 
     public Bitmap getImageBitmap() {
         return imageBitmap;
@@ -55,6 +56,7 @@ public class ProductsInformation {
             String productPrice,
             String tradeLocation,
             String addedDate,
+            int productOwnerNumber,
             Bitmap imageBitmap
     ) {
 
@@ -65,6 +67,7 @@ public class ProductsInformation {
         this.productPrice = productPrice;
         this.tradeLocation = tradeLocation;
         this.addedDate = addedDate;
+        this.productOwnerNumber = productOwnerNumber;
         this.imageBitmap = imageBitmap;
     }
 
@@ -94,6 +97,10 @@ public class ProductsInformation {
 
     public String getProductOwner() {
         return productOwner;
+    }
+
+    public int getProductOwnerNumber() {
+        return productOwnerNumber;
     }
 
     public void setProductOwner(String productOwner) {

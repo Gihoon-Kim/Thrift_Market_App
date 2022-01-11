@@ -8,12 +8,12 @@
 
     $ProductOwner = $_POST["productOwner"];
 
-    $sql = "SELECT ProductNumber, p.ProductName, ProductDesc, ProductPrice, u.UserName, TradeLocation, Processing, AddedDate, i.FilePath, i.imageName
+    $sql = "SELECT p.ProductNumber, p.ProductName, p.ProductDesc, p.ProductPrice, p.ProductOwner, u.UserName, p.tradeLocation, p.AddedDate, i.FilePath, i.imageName
             FROM product p
             JOIN user u
             JOIN images i
             ON p.ProductOwner = u.UserNumber
-            WHERE ProductOwner = $ProductOwner AND i.ImageNumber = 0 AND i.ProductName = p.ProductName;";
+            WHERE p.ProductOwner = '$ProductOwner' AND i.ImageNumber = 0 AND i.ProductName = p.ProductName;";
 
     $result = mysqli_query($conn, $sql);
 
@@ -33,9 +33,10 @@
                         'ProductNumber' => $row["ProductNumber"],
                         'ProductName' => $row["ProductName"],
                         'ProductDesc' => $row["ProductDesc"],
-                        'ProductOwner' => $row["UserName"],
+                        'ProductOwnerNumber' => $row["ProductOwner"],
+                        'OwnerName' => $row["UserName"],
                         'ProductPrice' => $row["ProductPrice"],
-                        'TradeLocation' => $row["TradeLocation"],
+                        'TradeLocation' => $row["tradeLocation"],
                         'AddedDate' => $row["AddedDate"],
                         'ImageFile' => $imageFileData
                     ));

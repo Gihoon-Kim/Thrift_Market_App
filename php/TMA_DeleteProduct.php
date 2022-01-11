@@ -7,9 +7,13 @@
     $conn = mysqli_connect($servername, $username, $password, $db_name);
 
     $ProductNumber = $_POST["productNumber"];
+    $ProductName = $_POST["productName"];
 
-    $sql = "DELETE FROM product
-            WHERE ProductNumber = '$ProductNumber';";
+    $sql = "DELETE p, i
+            FROM product as p
+            INNER JOIN images as i on i.productName = p.productName
+            WHERE p.ProductNumber = '$ProductNumber'
+            AND i.productName = '$ProductName';";
 
     $result = mysqli_query($conn, $sql);
 

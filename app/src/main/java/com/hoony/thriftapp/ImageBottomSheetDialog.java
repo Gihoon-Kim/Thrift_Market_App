@@ -91,21 +91,22 @@ public class ImageBottomSheetDialog extends BottomSheetDialogFragment {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
 
-                    assert result.getData() != null;
-                    Bundle bundle = result.getData().getExtras();
-                    /* Conversion to Bitmap */
-                    Bitmap imgBitmap = (Bitmap) bundle.get("data");
-                    Matrix rotateMatrix = new Matrix();
-                    rotateMatrix.postRotate(90);
+                    if (result.getData() != null) {
+                        Bundle bundle = result.getData().getExtras();
+                        /* Conversion to Bitmap */
+                        Bitmap imgBitmap = (Bitmap) bundle.get("data");
+                        Matrix rotateMatrix = new Matrix();
+                        rotateMatrix.postRotate(90);
 
-                    Bitmap sideInversionImg = Bitmap.createBitmap(imgBitmap, 0, 0,
-                            imgBitmap.getWidth(), imgBitmap.getHeight(), rotateMatrix, false);
+                        Bitmap sideInversionImg = Bitmap.createBitmap(imgBitmap, 0, 0,
+                                imgBitmap.getWidth(), imgBitmap.getHeight(), rotateMatrix, false);
 
-                    ivPhoto.setImageBitmap(sideInversionImg);
+                        ivPhoto.setImageBitmap(sideInversionImg);
 
-                    ivPhoto.setVisibility(View.VISIBLE);
-                    rvImages.setVisibility(View.GONE);
-                    btnAddImage.setVisibility(View.GONE);
+                        ivPhoto.setVisibility(View.VISIBLE);
+                        rvImages.setVisibility(View.GONE);
+                        btnAddImage.setVisibility(View.GONE);
+                    }
                     dismiss();
                 }
         );

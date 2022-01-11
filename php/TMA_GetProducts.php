@@ -6,7 +6,7 @@
 
     $conn = mysqli_connect($servername, $username, $password, $db_name);
 
-    $sql = "SELECT p.ProductNumber, p.ProductName, p.ProductDesc, p.ProductPrice, u.UserName, p.tradeLocation, p.AddedDate, i.FilePath, i.imageName
+    $sql = "SELECT p.ProductNumber, p.ProductName, p.ProductDesc, p.ProductPrice, p.ProductOwner, u.UserName, p.tradeLocation, p.AddedDate, i.FilePath, i.imageName
 	        FROM product p
 	        JOIN user u
             JOIN images i
@@ -31,7 +31,8 @@
                         'ProductNumber' => $row["ProductNumber"],
                         'ProductName' => $row["ProductName"],
                         'ProductDesc' => $row["ProductDesc"],
-                        'ProductOwner' => $row["UserName"],
+                        'ProductOwnerNumber' => $row["ProductOwner"],
+                        'OwnerName' => $row["UserName"],
                         'ProductPrice' => $row["ProductPrice"],
                         'TradeLocation' => $row["tradeLocation"],
                         'AddedDate' => $row["AddedDate"],
